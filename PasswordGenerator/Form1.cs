@@ -90,7 +90,7 @@ namespace PasswordGenerator
             }
 
             Password pass;
-            pass = passwordGenerator.GeneratePassword(strength, length);
+            pass = passwordGenerator.GeneratePassword(strength, length, 0);
             labelPass.Text = pass.password;
 
         }
@@ -214,6 +214,46 @@ namespace PasswordGenerator
 
             labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
             labelTimeTaken.Text = canCrack ? TIMETAKEN + (watch.ElapsedMilliseconds / 1000) : TIMETAKEN + (watch.ElapsedMilliseconds / 1000);
+        }
+
+        private void buttonGenerateSecurePassword_Click(object sender, EventArgs e)
+        {
+            int length, strength;
+            try
+            {
+                length = Int32.Parse(tboxLength.Text);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Incorrect formatting of Length");
+                return;
+            }
+
+            try
+            {
+                strength = Int32.Parse(tboxStrength.Text);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Incorrect formatting of strength");
+                return;
+            }
+
+            //Making sure passwords aren't too long
+            if (length > 50)
+            {
+                length = 50;
+            }
+
+            //Strength needs to be within 0-2
+            if (strength > 2 || strength < 0)
+            {
+                return;
+            }
+
+            Password pass;
+            pass = passwordGenerator.GeneratePassword(strength, length, 1);
+            labelPass.Text = pass.password;
         }
     }
 }

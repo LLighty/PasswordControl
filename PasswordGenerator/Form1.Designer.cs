@@ -74,6 +74,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.buttonGenerateSecurePassword = new System.Windows.Forms.Button();
             this.panelHome.SuspendLayout();
             this.panelGen.SuspendLayout();
             this.panelChecker.SuspendLayout();
@@ -137,6 +138,7 @@
             // 
             // panelGen
             // 
+            this.panelGen.Controls.Add(this.buttonGenerateSecurePassword);
             this.panelGen.Controls.Add(this.labelPass);
             this.panelGen.Controls.Add(this.label5);
             this.panelGen.Controls.Add(this.label4);
@@ -198,7 +200,7 @@
             // 
             // btnCopyClipboard
             // 
-            this.btnCopyClipboard.Location = new System.Drawing.Point(446, 384);
+            this.btnCopyClipboard.Location = new System.Drawing.Point(446, 374);
             this.btnCopyClipboard.Name = "btnCopyClipboard";
             this.btnCopyClipboard.Size = new System.Drawing.Size(134, 45);
             this.btnCopyClipboard.TabIndex = 7;
@@ -219,7 +221,7 @@
             // 
             // btnGeneratePassword
             // 
-            this.btnGeneratePassword.Location = new System.Drawing.Point(290, 384);
+            this.btnGeneratePassword.Location = new System.Drawing.Point(290, 374);
             this.btnGeneratePassword.Name = "btnGeneratePassword";
             this.btnGeneratePassword.Size = new System.Drawing.Size(134, 45);
             this.btnGeneratePassword.TabIndex = 5;
@@ -572,15 +574,25 @@
             this.label7.Text = "Password Control";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // buttonGenerateSecurePassword
+            // 
+            this.buttonGenerateSecurePassword.Location = new System.Drawing.Point(364, 427);
+            this.buttonGenerateSecurePassword.Name = "buttonGenerateSecurePassword";
+            this.buttonGenerateSecurePassword.Size = new System.Drawing.Size(134, 45);
+            this.buttonGenerateSecurePassword.TabIndex = 13;
+            this.buttonGenerateSecurePassword.Text = "Generate Password Secure";
+            this.buttonGenerateSecurePassword.UseVisualStyleBackColor = true;
+            this.buttonGenerateSecurePassword.Click += new System.EventHandler(this.buttonGenerateSecurePassword_Click);
+            // 
             // PasswordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1803, 597);
-            this.Controls.Add(this.panelHome);
             this.Controls.Add(this.panelGen);
             this.Controls.Add(this.panelCracker);
             this.Controls.Add(this.panelChecker);
+            this.Controls.Add(this.panelHome);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -647,6 +659,7 @@
         private System.Windows.Forms.Label labelCanCrack;
         private System.Windows.Forms.Button buttonTestInternalList;
         private System.Windows.Forms.ComboBox comboBoxPasswordLists;
+        private System.Windows.Forms.Button buttonGenerateSecurePassword;
     }
 }
 
