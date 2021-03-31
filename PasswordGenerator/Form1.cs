@@ -168,6 +168,7 @@ namespace PasswordGenerator
             }
             catch (FormatException)
             {
+                spawnMessagePopup("Incorrect formatting of Time");
                 Console.WriteLine("Incorrect formatting of Time");
                 return;
             }
@@ -175,13 +176,14 @@ namespace PasswordGenerator
             Password pass = new Password(textBoxPasswordCracker.Text);
             //var watch = new System.Diagnostics.Stopwatch();
 
-            int startedTask = startBruteForceTask(1, pass, time);
+            int startedTask = startBruteForceTask(0, pass, time);
             if (startedTask == 1)
             {
-                Console.WriteLine("Successfully started Extensive Brute Force task");
+                Console.WriteLine("Successfully started Simple Brute Force task");
             }
             else if (startedTask == 0)
             {
+                spawnMessagePopup("There is already a password being processed.");
                 Console.WriteLine("task already working.");
             }
             else
@@ -296,6 +298,7 @@ namespace PasswordGenerator
             }
             catch (FormatException)
             {
+                spawnMessagePopup("Incorrect formatting of Time");
                 Console.WriteLine("Incorrect formatting of Time");
                 return;
             }
@@ -311,6 +314,7 @@ namespace PasswordGenerator
             {
                 Console.WriteLine("Successfully started Extensive Brute Force task");
             } else if(startedTask == 0) {
+                spawnMessagePopup("There is already a password being processed.");
                 Console.WriteLine("task already working.");
             } else
             {
@@ -401,6 +405,12 @@ namespace PasswordGenerator
         {
             labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
             labelTimeTaken.Text = canCrack ? TIMETAKEN + (timeTaken / 1000) : TIMETAKEN + " > " + (timeTaken / 1000);
+        }
+
+        public void spawnMessagePopup(String text)
+        {
+            Console.WriteLine(text);
+            MessageBox.Show(text);
         }
     }
 }
