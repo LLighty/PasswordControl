@@ -13,9 +13,13 @@ Later this will incorporate a cryptographically secure random number generator a
 
 ### Password Checker
 Checks to see how strong a password is by calculating the password entropy and allocating the strength dependent on this value.
+
 < 50  = Weak
+
 < 75  = Moderate
+
 < 100 = Strong
+
 Alongside this it also determines the characters that are being used in the password such as Uppercase, lowercase, numbers, etc.
 
 ### Password Cracker
