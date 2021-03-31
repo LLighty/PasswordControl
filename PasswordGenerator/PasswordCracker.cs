@@ -20,17 +20,39 @@ namespace PasswordGenerator
 
             watch.Start();
 
-            Console.WriteLine("Begin cracking");
+            Console.WriteLine("Begin cracking simple");
             passFound = GenerateWordsLowerCaseCheck(pass, (minutesToRunBruteForce * millisecondsInMinute));
 
             if (passFound)
             {
                 watch.Stop();
-                Console.WriteLine("Brute force took {0} to find the password.", watch.ElapsedMilliseconds);
+                Console.WriteLine("Simple brute force took {0} to find the password.", watch.ElapsedMilliseconds);
                 return true;
             }
 
-            Console.WriteLine("Brute force could not be completed within {0} minutes.", minutesToRunBruteForce);
+            Console.WriteLine("Simple brute force could not be completed within {0} minutes.", minutesToRunBruteForce);
+            return false;
+        }
+
+        public Boolean BruteForceExtensive(Password pass, double minutesToRunBruteForce)
+        {
+            bool passFound = false;
+            var watch = new System.Diagnostics.Stopwatch();
+            string password = pass.password;
+
+            watch.Start();
+
+            Console.WriteLine("Begin cracking extensive");
+            passFound = GenerateWordsCheck(pass, (minutesToRunBruteForce * millisecondsInMinute));
+
+            if (passFound)
+            {
+                watch.Stop();
+                Console.WriteLine("Extensive brute force took {0} to find the password.", watch.ElapsedMilliseconds);
+                return true;
+            }
+
+            Console.WriteLine("Extensive brute force could not be completed within {0} minutes.", minutesToRunBruteForce);
             return false;
         }
 
@@ -63,6 +85,91 @@ namespace PasswordGenerator
             while (word.Length < int.MaxValue)
             {
                 if(watch.ElapsedMilliseconds > timeToRun){
+                    return false;
+                }
+                currentIndex = word.Length - 1;
+                array = word.ToCharArray();
+
+                currentChar = (int)array[currentIndex];
+                currentChar++;
+                if (currentChar > charEnd)
+                {
+                    pivotIndex = currentIndex;
+                    while (true)
+                    {
+                        if (currentIndex == 0)
+                        {
+                            array = IncreaseCharArrayByOne(array);
+                            break;
+                        }
+
+                        pivotIndex--;
+                        pivotChar = (int)array[pivotIndex];
+                        pivotChar++;
+                        if (pivotChar > charEnd)
+                        {
+                            if (pivotIndex == 0)
+                            {
+                                array[pivotIndex] = (char)charStart;
+                                array = IncreaseCharArrayByOne(array);
+                                break;
+                            }
+                            else
+                            {
+                                array[pivotIndex] = (char)charStart;
+                            }
+                        }
+                        else
+                        {
+                            array[pivotIndex] = (char)pivotChar;
+                            break;
+                        }
+
+                    }
+                    array[currentIndex] = (char)charStart;
+                }
+                else
+                {
+                    array[currentIndex] = (char)currentChar;
+                }
+
+                word = new string(array);
+                if (word == password)
+                {
+                    return true;
+                }
+                //System.Threading.Thread.Sleep(100);
+            }
+            return false;
+        }
+
+        private Boolean GenerateWordsCheck(Password pass, double timeToRun)
+        {
+            String password = pass.password;
+
+            String word = "!";
+            char[] array;
+            int charStart = 33;
+            int charEnd = 126;
+            int currentIndex = 0;
+            int pivotIndex = 0;
+
+            int currentChar;
+            int pivotChar;
+
+            var watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
+
+            if (word == password)
+            {
+                Console.WriteLine("Password is !");
+                return true;
+            }
+
+            while (word.Length < int.MaxValue)
+            {
+                if (watch.ElapsedMilliseconds > timeToRun)
+                {
                     return false;
                 }
                 currentIndex = word.Length - 1;

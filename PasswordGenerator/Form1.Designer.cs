@@ -34,6 +34,7 @@
             this.btnToChecker = new System.Windows.Forms.Button();
             this.btnToGen = new System.Windows.Forms.Button();
             this.panelGen = new System.Windows.Forms.Panel();
+            this.buttonGenerateSecurePassword = new System.Windows.Forms.Button();
             this.labelPass = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -59,6 +60,7 @@
             this.btnHome1 = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.panelCracker = new System.Windows.Forms.Panel();
+            this.buttonOpenFile = new System.Windows.Forms.Button();
             this.labelTimeTaken = new System.Windows.Forms.Label();
             this.labelCanCrack = new System.Windows.Forms.Label();
             this.buttonTestInternalList = new System.Windows.Forms.Button();
@@ -74,7 +76,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.buttonGenerateSecurePassword = new System.Windows.Forms.Button();
+            this.buttonExtensiveBruteForce = new System.Windows.Forms.Button();
             this.panelHome.SuspendLayout();
             this.panelGen.SuspendLayout();
             this.panelChecker.SuspendLayout();
@@ -155,6 +157,16 @@
             this.panelGen.Size = new System.Drawing.Size(885, 590);
             this.panelGen.TabIndex = 7;
             this.panelGen.Visible = false;
+            // 
+            // buttonGenerateSecurePassword
+            // 
+            this.buttonGenerateSecurePassword.Location = new System.Drawing.Point(364, 427);
+            this.buttonGenerateSecurePassword.Name = "buttonGenerateSecurePassword";
+            this.buttonGenerateSecurePassword.Size = new System.Drawing.Size(134, 45);
+            this.buttonGenerateSecurePassword.TabIndex = 13;
+            this.buttonGenerateSecurePassword.Text = "Generate Password Secure";
+            this.buttonGenerateSecurePassword.UseVisualStyleBackColor = true;
+            this.buttonGenerateSecurePassword.Click += new System.EventHandler(this.buttonGenerateSecurePassword_Click);
             // 
             // labelPass
             // 
@@ -405,6 +417,8 @@
             // 
             // panelCracker
             // 
+            this.panelCracker.Controls.Add(this.buttonExtensiveBruteForce);
+            this.panelCracker.Controls.Add(this.buttonOpenFile);
             this.panelCracker.Controls.Add(this.labelTimeTaken);
             this.panelCracker.Controls.Add(this.labelCanCrack);
             this.panelCracker.Controls.Add(this.buttonTestInternalList);
@@ -425,6 +439,16 @@
             this.panelCracker.Size = new System.Drawing.Size(885, 590);
             this.panelCracker.TabIndex = 14;
             this.panelCracker.Visible = false;
+            // 
+            // buttonOpenFile
+            // 
+            this.buttonOpenFile.Location = new System.Drawing.Point(652, 265);
+            this.buttonOpenFile.Name = "buttonOpenFile";
+            this.buttonOpenFile.Size = new System.Drawing.Size(31, 26);
+            this.buttonOpenFile.TabIndex = 19;
+            this.buttonOpenFile.Text = "...";
+            this.buttonOpenFile.UseVisualStyleBackColor = true;
+            this.buttonOpenFile.Click += new System.EventHandler(this.buttonOpenFile_Click);
             // 
             // labelTimeTaken
             // 
@@ -574,15 +598,16 @@
             this.label7.Text = "Password Control";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // buttonGenerateSecurePassword
+            // buttonExtensiveBruteForce
             // 
-            this.buttonGenerateSecurePassword.Location = new System.Drawing.Point(364, 427);
-            this.buttonGenerateSecurePassword.Name = "buttonGenerateSecurePassword";
-            this.buttonGenerateSecurePassword.Size = new System.Drawing.Size(134, 45);
-            this.buttonGenerateSecurePassword.TabIndex = 13;
-            this.buttonGenerateSecurePassword.Text = "Generate Password Secure";
-            this.buttonGenerateSecurePassword.UseVisualStyleBackColor = true;
-            this.buttonGenerateSecurePassword.Click += new System.EventHandler(this.buttonGenerateSecurePassword_Click);
+            this.buttonExtensiveBruteForce.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.buttonExtensiveBruteForce.Location = new System.Drawing.Point(659, 185);
+            this.buttonExtensiveBruteForce.Name = "buttonExtensiveBruteForce";
+            this.buttonExtensiveBruteForce.Size = new System.Drawing.Size(167, 43);
+            this.buttonExtensiveBruteForce.TabIndex = 20;
+            this.buttonExtensiveBruteForce.Text = "Extensive Bruteforce";
+            this.buttonExtensiveBruteForce.UseVisualStyleBackColor = true;
+            this.buttonExtensiveBruteForce.Click += new System.EventHandler(this.buttonExtensiveBruteForce_Click);
             // 
             // PasswordForm
             // 
@@ -660,6 +685,8 @@
         private System.Windows.Forms.Button buttonTestInternalList;
         private System.Windows.Forms.ComboBox comboBoxPasswordLists;
         private System.Windows.Forms.Button buttonGenerateSecurePassword;
+        private System.Windows.Forms.Button buttonOpenFile;
+        private System.Windows.Forms.Button buttonExtensiveBruteForce;
     }
 }
 

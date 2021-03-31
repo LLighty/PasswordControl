@@ -255,5 +255,41 @@ namespace PasswordGenerator
             pass = passwordGenerator.GeneratePassword(strength, length, 1);
             labelPass.Text = pass.password;
         }
+
+        private void buttonOpenFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBoxListLocation.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void buttonExtensiveBruteForce_Click(object sender, EventArgs e)
+        {
+            clearCrackerTextBoxes();
+            if (textBoxPasswordCracker.Text.Length <= 0) { return; }
+            double time = 0.0;
+            try
+            {
+                time = Double.Parse(textBoxTimeAllowed.Text);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Incorrect formatting of Time");
+                return;
+            }
+
+            Password pass = new Password(textBoxPasswordCracker.Text);
+            var watch = new System.Diagnostics.Stopwatch();
+
+            watch.Start();
+            Boolean canCrack = passwordCracker.BruteForceExtensive(pass, time);
+            watch.Stop();
+
+            labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
+            labelTimeTaken.Text = canCrack ? TIMETAKEN + (watch.ElapsedMilliseconds / 1000) : TIMETAKEN + " > " + (watch.ElapsedMilliseconds / 1000);
+        }
     }
 }
