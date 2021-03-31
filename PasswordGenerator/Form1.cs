@@ -12,6 +12,9 @@ namespace PasswordGenerator
 {
     public partial class PasswordForm : Form
     {
+        private delegate void SafeCallDelegate(Boolean canCrack, double timeTaken);
+        Task bruteForceTask = null;
+
         PasswordGen passwordGenerator = new PasswordGen();
         PasswordChecker passwordChecker = new PasswordChecker();
         PasswordCracker passwordCracker = new PasswordCracker();
@@ -170,14 +173,28 @@ namespace PasswordGenerator
             }
 
             Password pass = new Password(textBoxPasswordCracker.Text);
-            var watch = new System.Diagnostics.Stopwatch();
+            //var watch = new System.Diagnostics.Stopwatch();
 
-            watch.Start();
-            Boolean canCrack = passwordCracker.BruteForceSimple(pass, time);
-            watch.Stop();
+            int startedTask = startBruteForceTask(1, pass, time);
+            if (startedTask == 1)
+            {
+                Console.WriteLine("Successfully started Extensive Brute Force task");
+            }
+            else if (startedTask == 0)
+            {
+                Console.WriteLine("task already working.");
+            }
+            else
+            {
+                Console.WriteLine("Error starting task");
+            }
 
-            labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
-            labelTimeTaken.Text = canCrack ? TIMETAKEN + (watch.ElapsedMilliseconds / 1000) : TIMETAKEN + " > " + (watch.ElapsedMilliseconds / 1000);
+            //watch.Start();
+            //Boolean canCrack = passwordCracker.BruteForceSimple(pass, time);
+            //watch.Stop();
+
+            //labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
+            //labelTimeTaken.Text = canCrack ? TIMETAKEN + (watch.ElapsedMilliseconds / 1000) : TIMETAKEN + " > " + (watch.ElapsedMilliseconds / 1000);
         }
 
         private void clearCrackerTextBoxes()
@@ -212,8 +229,10 @@ namespace PasswordGenerator
             Boolean canCrack = passwordCracker.CheckFromExternalList(pass, pathToList);
             watch.Stop();
 
-            labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
-            labelTimeTaken.Text = canCrack ? TIMETAKEN + (watch.ElapsedMilliseconds / 1000) : TIMETAKEN + (watch.ElapsedMilliseconds / 1000);
+            updateCrackedForm(canCrack, watch.ElapsedMilliseconds);
+
+            //labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
+            //labelTimeTaken.Text = canCrack ? TIMETAKEN + (watch.ElapsedMilliseconds / 1000) : TIMETAKEN + (watch.ElapsedMilliseconds / 1000);
         }
 
         private void buttonGenerateSecurePassword_Click(object sender, EventArgs e)
@@ -282,14 +301,106 @@ namespace PasswordGenerator
             }
 
             Password pass = new Password(textBoxPasswordCracker.Text);
-            var watch = new System.Diagnostics.Stopwatch();
+            //var watch = new System.Diagnostics.Stopwatch();
 
-            watch.Start();
-            Boolean canCrack = passwordCracker.BruteForceExtensive(pass, time);
-            watch.Stop();
+            //watch.Start();
+            //Boolean canCrack = passwordCracker.BruteForceExtensive(pass, time);
+            //watch.Stop();
+            int startedTask = startBruteForceTask(1, pass, time);
+            if (startedTask == 1)
+            {
+                Console.WriteLine("Successfully started Extensive Brute Force task");
+            } else if(startedTask == 0) {
+                Console.WriteLine("task already working.");
+            } else
+            {
+                Console.WriteLine("Error starting task");
+            }
 
+            //updateCrackedForm(canCrack, watch.ElapsedMilliseconds);
+
+            //labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
+            //labelTimeTaken.Text = canCrack ? TIMETAKEN + (watch.ElapsedMilliseconds / 1000) : TIMETAKEN + " > " + (watch.ElapsedMilliseconds / 1000);
+        }
+
+        //0 - Failure
+        //1 - Success
+        //-1 - undefined
+        private int startBruteForceTask(int bruteForceType, Password pass, double timeToRun)
+        {
+            if(bruteForceTask == null)
+            {
+                bruteForceTask = Task.Run(() => {
+                    Boolean canCrack = false;
+                    var watch = new System.Diagnostics.Stopwatch();
+                    watch.Start();
+                    if (bruteForceType == 0)
+                    {
+                        canCrack = passwordCracker.BruteForceSimple(pass, timeToRun);
+                    }
+                    else
+                    {
+                        canCrack = passwordCracker.BruteForceExtensive(pass, timeToRun);
+                    }
+                    watch.Stop();
+                    updateCrackedFormSafe(canCrack, watch.ElapsedMilliseconds);
+                });
+            }
+
+            if(bruteForceTask.Status == TaskStatus.Running)
+            {
+                return 0;
+            } else
+            {
+                bruteForceTask = Task.Run(() => {
+                    Boolean canCrack = false;
+                    var watch = new System.Diagnostics.Stopwatch();
+                    watch.Start();
+                    if(bruteForceType == 0)
+                    {
+                        canCrack = passwordCracker.BruteForceSimple(pass, timeToRun);
+                    }
+                    else
+                    {
+                        canCrack = passwordCracker.BruteForceExtensive(pass, timeToRun);
+                    }
+                    watch.Stop();
+                    updateCrackedFormSafe(canCrack, watch.ElapsedMilliseconds);
+                });
+            }
+
+            return -1;
+        }
+
+        public void updateCrackedFormSafe(Boolean canCrack, double timeTaken)
+        {
+            String canCrackText = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
+            String labelTimeTakenText = canCrack ? TIMETAKEN + (timeTaken / 1000) : TIMETAKEN + " > " + (timeTaken / 1000);
+            if (labelCanCrack.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(updateCrackedFormSafe);
+                labelCanCrack.Invoke(d, new object[] { canCrack, timeTaken });
+            }
+            else
+            {
+                labelCanCrack.Text = canCrackText;
+            }
+
+            if(labelTimeTaken.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(updateCrackedFormSafe);
+                labelTimeTaken.Invoke(d, new object[] { canCrack, timeTaken });
+            }
+            else
+            {
+                labelTimeTaken.Text = labelTimeTakenText;
+            }
+        }
+
+        private void updateCrackedForm(Boolean canCrack, double timeTaken)
+        {
             labelCanCrack.Text = canCrack ? CANCRACK + "Yes" : CANCRACK + "No";
-            labelTimeTaken.Text = canCrack ? TIMETAKEN + (watch.ElapsedMilliseconds / 1000) : TIMETAKEN + " > " + (watch.ElapsedMilliseconds / 1000);
+            labelTimeTaken.Text = canCrack ? TIMETAKEN + (timeTaken / 1000) : TIMETAKEN + " > " + (timeTaken / 1000);
         }
     }
 }
