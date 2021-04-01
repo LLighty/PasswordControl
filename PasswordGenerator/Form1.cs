@@ -67,6 +67,13 @@ namespace PasswordGenerator
             } catch (FormatException)
             {
                 Console.WriteLine("Incorrect formatting of Length");
+                spawnMessagePopup("Incorrect Length, needs to be a number");
+                return;
+            }
+
+            if(length < 1)
+            {
+                spawnMessagePopup("Length needs to be greater than or equal to 1");
                 return;
             }
 
@@ -77,6 +84,13 @@ namespace PasswordGenerator
             catch (FormatException)
             {
                 Console.WriteLine("Incorrect formatting of strength");
+                spawnMessagePopup("Incorrect Strength, needs to be a number");
+                return;
+            }
+            
+            if(strength < 0 || strength > 2)
+            {
+                spawnMessagePopup("Incorrect Strength, needs to be between 0-2");
                 return;
             }
 
@@ -168,8 +182,14 @@ namespace PasswordGenerator
             }
             catch (FormatException)
             {
-                spawnMessagePopup("Incorrect formatting of Time");
+                spawnMessagePopup("Incorrect formatting of Time, needs to be a number greater than or equal to 1");
                 Console.WriteLine("Incorrect formatting of Time");
+                return;
+            }
+
+            if(time < 1)
+            {
+                spawnMessagePopup("Incorrect formatting of Time, needs to be a number greater than or equal to 1");
                 return;
             }
 
@@ -247,6 +267,13 @@ namespace PasswordGenerator
             catch (FormatException)
             {
                 Console.WriteLine("Incorrect formatting of Length");
+                spawnMessagePopup("Incorrect Length, needs to be a number");
+                return;
+            }
+
+            if (length < 1)
+            {
+                spawnMessagePopup("Length needs to be greater than or equal to 1");
                 return;
             }
 
@@ -257,6 +284,13 @@ namespace PasswordGenerator
             catch (FormatException)
             {
                 Console.WriteLine("Incorrect formatting of strength");
+                spawnMessagePopup("Incorrect Strength, needs to be a number");
+                return;
+            }
+
+            if (strength < 0 || strength > 2)
+            {
+                spawnMessagePopup("Incorrect Strength, needs to be between 0-2");
                 return;
             }
 
@@ -264,12 +298,6 @@ namespace PasswordGenerator
             if (length > 50)
             {
                 length = 50;
-            }
-
-            //Strength needs to be within 0-2
-            if (strength > 2 || strength < 0)
-            {
-                return;
             }
 
             Password pass;
